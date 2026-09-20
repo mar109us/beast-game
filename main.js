@@ -19,12 +19,12 @@ function updateView() {
 updateView();
 
 function drawScreen() {
-   let currenctScreen = ""
+   let currentScreen = "";
    for (let row in screen) {
-         console.log(row);
-         currenctScreen += `<div>${screen[row]}</div>`;
+      console.log(row);
+      currentScreen += `<div class="pixel">${screen[row]}</div>`;
    }
-   console.log(currenctScreen);
-   currenctScreen.replace("0", "1")
-   return currenctScreen;
+   console.log(currentScreen);
+   currentScreen = currentScreen.replaceAll(",", "");
+   return currentScreen;
 }
