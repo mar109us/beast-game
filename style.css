@@ -1,3 +1,13 @@
+body {
+   background-color: white;
+}
 .pixel {
-   margin: 5px;
+   width: 12px;
+   background-color: black;
+}
+.row {
+   display: flex;
+   height: 12px;
+   gap: 2px;
+   margin: 2px;
 }

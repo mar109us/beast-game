@@ -19,7 +19,7 @@ function drawScreen() {
    for (let row in screen) {
       currentScreen += `<div class="row">`;
       for (let column of screen[row]) {
-         currentScreen += `<span class="pixel">${column}</span>`;
+         currentScreen += `<span class="pixel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`;
       }
       currentScreen += `</div>`;
    }
