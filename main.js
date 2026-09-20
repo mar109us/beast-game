@@ -2,16 +2,12 @@ const main = {
    view: document.getElementById("app"),
 };
 
-const screen = {
-   x0: [0, 0, 0, 0, 0, 0, 0, 0],
-   x1: [0, 0, 0, 0, 0, 0, 0, 0],
-   x2: [0, 0, 0, 0, 0, 0, 0, 0],
-   x3: [0, 0, 0, 0, 0, 0, 0, 0],
-   x4: [0, 0, 0, 0, 0, 0, 0, 0],
-   x5: [0, 0, 0, 0, 0, 0, 0, 0],
-   x6: [0, 0, 0, 0, 0, 0, 0, 0],
-   x7: [0, 0, 0, 0, 0, 0, 0, 0],
+const screen = {};
+const screenSetup = {
+   width: 32,
+   height: 32,
 };
+createRow();
 
 function updateView() {
    main.view.innerHTML = drawScreen();
@@ -21,10 +17,27 @@ updateView();
 function drawScreen() {
    let currentScreen = "";
    for (let row in screen) {
-      console.log(row);
-      currentScreen += `<div class="pixel">${screen[row]}</div>`;
+      currentScreen += `<div class="row">`;
+      for (let column of screen[row]) {
+         currentScreen += `<span class="pixel">${column}</span>`;
+      }
+      currentScreen += `</div>`;
    }
-   console.log(currentScreen);
    currentScreen = currentScreen.replaceAll(",", "");
    return currentScreen;
+}
+
+function createRow() {
+   for (let i = 0; i < screenSetup.height; i++) {
+      screen[i] = createColumn();
+      console.log(screen);
+   }
+}
+
+function createColumn() {
+   let currentArray = [];
+   for (let i = 0; i < screenSetup.width; i++) {
+      currentArray.push(0);
+   }
+   return currentArray;
 }
