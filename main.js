@@ -10,8 +10,8 @@ const gameMap = {
 const viewport = {
    width: 9,
    height: 9,
-   xAnchor: 0,
-   yAnchor: 0,
+   xAnchor: -1,
+   yAnchor: -1,
 };
 
 createRow();
@@ -28,9 +28,9 @@ function drawScreen() {
    for (let row = viewport.yAnchor; row < viewport.height + viewport.yAnchor; row++) {
       currentScreen += `<div class="row">`;
       for (let column = viewport.xAnchor; column < viewport.width + viewport.xAnchor; column++) {
-         if (row === 4 + viewport.yAnchor && column === 4 + viewport.xAnchor) currentScreen += `<span class="pixel">${drawCharacter()}</span>`;
-         else currentScreen += `<span class="pixel">${drawTile(column, row)}</span>`;
-         // currentScreen += `<span class="pixel">${column}, ${row}</span>`;
+         if (row === 4 + viewport.yAnchor && column === 4 + viewport.xAnchor) currentScreen += `<span class="tile character">${drawCharacter()}</span>`;
+         else currentScreen += `<span class="tile">${drawTile(column, row)}</span>`;
+         // currentScreen += `<span class="tile">${column}, ${row}</span>`;
       }
       currentScreen += `</div>`;
    }
@@ -74,29 +74,42 @@ function drawTile(column, row) {
 }
 
 function drawCharacter() {
-   return ":)";
+   return ":D";
 }
 
 function move(direction) {
-   if (direction === "right") {
+   if (direction === "right" || direction === "ArrowRight") {
       if (viewport.xAnchor !== gameMap.width - viewport.width + 3) {
          viewport.xAnchor = viewport.xAnchor += 1;
       } else console.log("Boundary hit: right");
    }
-   if (direction === "down") {
+   if (direction === "down" || direction === "ArrowDown") {
       if (viewport.yAnchor !== gameMap.height - viewport.height + 3) {
          viewport.yAnchor = viewport.yAnchor += 1;
       } else console.log("Boundary hit: bottom");
    }
-   if (direction === "left") {
+   if (direction === "left" || direction === "ArrowLeft") {
       if (viewport.xAnchor !== 0 - 3) {
          viewport.xAnchor = viewport.xAnchor -= 1;
       } else console.log("Boundary hit: left");
    }
-   if (direction === "up") {
+   if (direction === "up" || direction === "ArrowUp") {
       if (viewport.yAnchor !== 0 - 3) {
          viewport.yAnchor = viewport.yAnchor -= 1;
       } else console.log("Boundary hit: top");
    }
    updateView();
 }
+
+let keyPressed
+addEventListener("keydown", (key) => {
+   if (key.code === "ArrowLeft" || key.code === "ArrowRight" || key.code === "ArrowUp" || key.code === "ArrowDown") keyPressed = key.code;
+});
+
+function registerKey() {
+   if (keyPressed === undefined) return console.log("no key");
+   move(keyPressed);
+   keyPressed = undefined;
+}
+
+setInterval(registerKey, 500);
