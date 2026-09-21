@@ -2,12 +2,17 @@ body {
    background-color: white;
 }
 .pixel {
-   width: 12px;
-   background-color: black;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 5px;
+   width: 15px;
+   background-color: white;
+   border: 1px solid black;
 }
 .row {
    display: flex;
-   height: 12px;
+   /* height: 15px; */
    gap: 2px;
    margin: 2px;
 }

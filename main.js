@@ -4,9 +4,14 @@ const main = {
 
 const screen = {};
 const screenSetup = {
-   width: 32,
-   height: 32,
+   width: 16,
+   height: 16,
 };
+const viewport = {
+   width: 4,
+   height: 4,
+};
+
 createRow();
 
 function updateView() {
@@ -16,28 +21,26 @@ updateView();
 
 function drawScreen() {
    let currentScreen = "";
-   for (let row in screen) {
+   for (let row = 0; row < viewport.height; row++) {
       currentScreen += `<div class="row">`;
-      for (let column of screen[row]) {
-         currentScreen += `<span class="pixel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`;
+      for (let column = 0; column < viewport.width; column++) {
+         currentScreen += `<span class="pixel">${column}</span>`;
       }
       currentScreen += `</div>`;
    }
-   currentScreen = currentScreen.replaceAll(",", "");
    return currentScreen;
 }
 
 function createRow() {
    for (let i = 0; i < screenSetup.height; i++) {
       screen[i] = createColumn();
-      console.log(screen);
    }
 }
 
 function createColumn() {
    let currentArray = [];
    for (let i = 0; i < screenSetup.width; i++) {
-      currentArray.push(0);
+      currentArray.push(i);
    }
    return currentArray;
 }
