@@ -4,12 +4,12 @@ const main = {
 
 const screen = {};
 const gameMap = {
-   width: 16,
-   height: 16,
+   width: 20,
+   height: 18,
 };
 const viewport = {
-   width: 4,
-   height: 4,
+   width: 9,
+   height: 9,
    xAnchor: 0,
    yAnchor: 0,
 };
@@ -28,7 +28,8 @@ function drawScreen() {
    for (let row = viewport.yAnchor; row < viewport.height + viewport.yAnchor; row++) {
       currentScreen += `<div class="row">`;
       for (let column = viewport.xAnchor; column < viewport.width + viewport.xAnchor; column++) {
-         currentScreen += `<span class="pixel">${row}  ${column}</span>`;
+         // currentScreen += `<span class="pixel">${column}, ${row}</span>`;
+         currentScreen += `<span class="pixel">${drawTile(column,row)}</span>`;
       }
       currentScreen += `</div>`;
    }
@@ -62,6 +63,12 @@ function createColumn() {
       currentArray.push(i);
    }
    return currentArray;
+}
+
+function drawTile(column,row) {
+   if (column === 0 || column === gameMap.width - 1) return "xxxx<br>xxxx"
+   if (row === 0 || row === gameMap.height - 1) return "xxxx<br>xxxx"
+   else return "0"
 }
 
 function move(direction) {
