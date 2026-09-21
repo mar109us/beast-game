@@ -21,6 +21,8 @@ updateView();
 
 function drawScreen() {
    let currentScreen = "";
+   currentScreen += createButtons();
+   currentScreen += `<div class="viewport">`
    for (let row = 0; row < viewport.height; row++) {
       currentScreen += `<div class="row">`;
       for (let column = 0; column < viewport.width; column++) {
@@ -28,7 +30,22 @@ function drawScreen() {
       }
       currentScreen += `</div>`;
    }
+   currentScreen += `</div>`
    return currentScreen;
+}
+
+function createButtons() {
+   return `
+   <div class="buttons">
+      <div>
+         <button id="move-up">up</button>
+      </div>
+      <div>
+         <button id="move-left">left</button>
+         <button id="move-down">down</button>
+         <button id="move-right">right</button>
+      </div>
+   </div>`;
 }
 
 function createRow() {
