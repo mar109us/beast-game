@@ -28,8 +28,9 @@ function drawScreen() {
    for (let row = viewport.yAnchor; row < viewport.height + viewport.yAnchor; row++) {
       currentScreen += `<div class="row">`;
       for (let column = viewport.xAnchor; column < viewport.width + viewport.xAnchor; column++) {
+         if (row === 4 + viewport.yAnchor && column === 4 + viewport.xAnchor) currentScreen += `<span class="pixel">${drawCharacter()}</span>`;
+         else currentScreen += `<span class="pixel">${drawTile(column, row)}</span>`;
          // currentScreen += `<span class="pixel">${column}, ${row}</span>`;
-         currentScreen += `<span class="pixel">${drawTile(column,row)}</span>`;
       }
       currentScreen += `</div>`;
    }
@@ -65,30 +66,35 @@ function createColumn() {
    return currentArray;
 }
 
-function drawTile(column,row) {
-   if (column === 0 || column === gameMap.width - 1) return "xxxx<br>xxxx"
-   if (row === 0 || row === gameMap.height - 1) return "xxxx<br>xxxx"
-   else return "0"
+function drawTile(column, row) {
+   if (column < 0 || column > gameMap.width - 1 || row < 0 || row > gameMap.height - 1) return `<div class="void"></div>`;
+   if (column === 0 || column === gameMap.width - 1) return "xxxx<br>xxxx";
+   if (row === 0 || row === gameMap.height - 1) return "xxxx<br>xxxx";
+   else return "0";
+}
+
+function drawCharacter() {
+   return ":)";
 }
 
 function move(direction) {
    if (direction === "right") {
-      if (viewport.xAnchor !== gameMap.width - viewport.width) {
+      if (viewport.xAnchor !== gameMap.width - viewport.width + 3) {
          viewport.xAnchor = viewport.xAnchor += 1;
       } else console.log("Boundary hit: right");
    }
    if (direction === "down") {
-      if (viewport.yAnchor !== gameMap.height - viewport.height) {
+      if (viewport.yAnchor !== gameMap.height - viewport.height + 3) {
          viewport.yAnchor = viewport.yAnchor += 1;
       } else console.log("Boundary hit: bottom");
    }
    if (direction === "left") {
-      if (viewport.xAnchor !== 0) {
+      if (viewport.xAnchor !== 0 - 3) {
          viewport.xAnchor = viewport.xAnchor -= 1;
       } else console.log("Boundary hit: left");
    }
    if (direction === "up") {
-      if (viewport.yAnchor !== 0) {
+      if (viewport.yAnchor !== 0 - 3) {
          viewport.yAnchor = viewport.yAnchor -= 1;
       } else console.log("Boundary hit: top");
    }
