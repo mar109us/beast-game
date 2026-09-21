@@ -3,13 +3,15 @@ const main = {
 };
 
 const screen = {};
-const screenSetup = {
+const gameMap = {
    width: 16,
    height: 16,
 };
 const viewport = {
    width: 4,
    height: 4,
+   xAnchor: 0,
+   yAnchor: 0,
 };
 
 createRow();
@@ -22,15 +24,15 @@ updateView();
 function drawScreen() {
    let currentScreen = "";
    currentScreen += createButtons();
-   currentScreen += `<div class="viewport">`
-   for (let row = 0; row < viewport.height; row++) {
+   currentScreen += `<div class="viewport">`;
+   for (let row = viewport.yAnchor; row < viewport.height + viewport.yAnchor; row++) {
       currentScreen += `<div class="row">`;
-      for (let column = 0; column < viewport.width; column++) {
-         currentScreen += `<span class="pixel">${column}</span>`;
+      for (let column = viewport.xAnchor; column < viewport.width + viewport.xAnchor; column++) {
+         currentScreen += `<span class="pixel">${row}  ${column}</span>`;
       }
       currentScreen += `</div>`;
    }
-   currentScreen += `</div>`
+   currentScreen += `</div>`;
    return currentScreen;
 }
 
@@ -38,26 +40,50 @@ function createButtons() {
    return `
    <div class="buttons">
       <div>
-         <button id="move-up">up</button>
+         <button onclick="move('up')">up</button>
       </div>
       <div>
-         <button id="move-left">left</button>
-         <button id="move-down">down</button>
-         <button id="move-right">right</button>
+         <button onclick="move('left')">left</button>
+         <button onclick="move('down')">down</button>
+         <button onclick="move('right')">right</button>
       </div>
    </div>`;
 }
 
 function createRow() {
-   for (let i = 0; i < screenSetup.height; i++) {
+   for (let i = 0; i < gameMap.height; i++) {
       screen[i] = createColumn();
    }
 }
 
 function createColumn() {
    let currentArray = [];
-   for (let i = 0; i < screenSetup.width; i++) {
+   for (let i = 0; i < gameMap.width; i++) {
       currentArray.push(i);
    }
    return currentArray;
+}
+
+function move(direction) {
+   if (direction === "right") {
+      if (viewport.xAnchor !== gameMap.width - viewport.width) {
+         viewport.xAnchor = viewport.xAnchor += 1;
+      } else console.log("Boundary hit: right");
+   }
+   if (direction === "down") {
+      if (viewport.yAnchor !== gameMap.height - viewport.height) {
+         viewport.yAnchor = viewport.yAnchor += 1;
+      } else console.log("Boundary hit: bottom");
+   }
+   if (direction === "left") {
+      if (viewport.xAnchor !== 0) {
+         viewport.xAnchor = viewport.xAnchor -= 1;
+      } else console.log("Boundary hit: left");
+   }
+   if (direction === "up") {
+      if (viewport.yAnchor !== 0) {
+         viewport.yAnchor = viewport.yAnchor -= 1;
+      } else console.log("Boundary hit: top");
+   }
+   updateView();
 }
