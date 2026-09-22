@@ -14,6 +14,17 @@ const viewport = {
    yAnchor: -1,
 };
 
+const input = {
+   character: {
+      walkDirection: {
+         left: ["left", "ArrowLeft", "KeyA"],
+         right: ["right", "ArrowRight", "KeyD"],
+         up: ["up", "ArrowUp", "KeyW"],
+         down: ["down", "ArrowDown", "KeyS"],
+      },
+   },
+};
+
 createRow();
 
 function updateView() {
@@ -61,7 +72,7 @@ function createRow() {
 function createColumn() {
    let currentArray = [];
    for (let i = 0; i < gameMap.width; i++) {
-      currentArray.push(i);
+      currentArray.push(0);
    }
    return currentArray;
 }
@@ -78,22 +89,23 @@ function drawCharacter() {
 }
 
 function move(direction) {
-   if (direction === "right" || direction === "ArrowRight") {
+   let button = input.character.walkDirection;
+   if (button.right.includes(direction)) {
       if (viewport.xAnchor !== gameMap.width - viewport.width + 3) {
          viewport.xAnchor = viewport.xAnchor += 1;
       } else console.log("Boundary hit: right");
    }
-   if (direction === "down" || direction === "ArrowDown") {
+   if (button.down.includes(direction)) {
       if (viewport.yAnchor !== gameMap.height - viewport.height + 3) {
          viewport.yAnchor = viewport.yAnchor += 1;
       } else console.log("Boundary hit: bottom");
    }
-   if (direction === "left" || direction === "ArrowLeft") {
+   if (button.left.includes(direction)) {
       if (viewport.xAnchor !== 0 - 3) {
          viewport.xAnchor = viewport.xAnchor -= 1;
       } else console.log("Boundary hit: left");
    }
-   if (direction === "up" || direction === "ArrowUp") {
+   if (button.up.includes(direction)) {
       if (viewport.yAnchor !== 0 - 3) {
          viewport.yAnchor = viewport.yAnchor -= 1;
       } else console.log("Boundary hit: top");
@@ -101,9 +113,13 @@ function move(direction) {
    updateView();
 }
 
-let keyPressed
+let keyPressed;
 addEventListener("keydown", (key) => {
-   if (key.code === "ArrowLeft" || key.code === "ArrowRight" || key.code === "ArrowUp" || key.code === "ArrowDown") keyPressed = key.code;
+   let button = input.character.walkDirection;
+   if (button.right.includes(key.code) || button.left.includes(key.code) || button.up.includes(key.code) || button.down.includes(key.code)) {
+      keyPressed = key.code;
+   }
+   console.log(key.code);
 });
 
 function registerKey() {
@@ -111,5 +127,4 @@ function registerKey() {
    move(keyPressed);
    keyPressed = undefined;
 }
-
 setInterval(registerKey, 500);
